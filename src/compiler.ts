@@ -9,7 +9,7 @@ let onlineJudgeEnv = false;
 
 export const setOnlineJudgeEnv = (value: boolean) => {
     onlineJudgeEnv = value;
-    console.log('online judge env:', onlineJudgeEnv);
+    console.log('online judge 环境:', onlineJudgeEnv);
 };
 
 /**
@@ -26,7 +26,7 @@ export const getBinSaveLocation = (srcPath: string): string => {
     if (language.skipCompile) {
         return srcPath;
     }
-    const ext = language.name == 'java' ? '*.class' : '.bin';
+    const ext = language.name == 'java' ? '*.class' : '.exe';
     const savePreference = getSaveLocationPref();
     const srcFileName = path.parse(srcPath).name;
     const binFileName = srcFileName + ext;
@@ -109,7 +109,7 @@ const getFlags = (language: Language, srcPath: string): string[] => {
  * @param srcPath location of the source code
  */
 export const compileFile = async (srcPath: string): Promise<boolean> => {
-    console.log('Compilation Started');
+    console.log('编译开始');
     await vscode.workspace.openTextDocument(srcPath).then((doc) => doc.save());
     ocHide();
     const language: Language = getLanguage(srcPath);
@@ -120,14 +120,14 @@ export const compileFile = async (srcPath: string): Promise<boolean> => {
         command: 'compiling-start',
     });
     const flags: string[] = getFlags(language, srcPath);
-    console.log('Compiling with flags', flags);
+    console.log('带选项编译 ', flags);
     const result = new Promise<boolean>((resolve) => {
         let compiler;
         try {
             compiler = spawn(language.compiler, flags);
         } catch (err) {
             vscode.window.showErrorMessage(
-                `Could not launch the compiler ${language.compiler}. Is it installed?`,
+                `无法启动编译器 ${language.compiler}. 是否已安装?`,
             );
             throw err;
         }
@@ -140,9 +140,9 @@ export const compileFile = async (srcPath: string): Promise<boolean> => {
         compiler.on('error', (err) => {
             console.error(err);
             ocWrite(
-                'Errors while compiling:\n' +
-                    err.message +
-                    `\n\nHint: Is the compiler ${language.compiler} installed? Check the compiler command in cph settings for the current language.`,
+                '编译时发生错误:\n' +
+                err.message +
+                `\n\n提升: 编译器 ${language.compiler} 是否已安装? 在 cph 设置中检查当前语言的编译器`,
             );
             getJudgeViewProvider().extensionToJudgeViewMessage({
                 command: 'compiling-stop',
@@ -155,10 +155,14 @@ export const compileFile = async (srcPath: string): Promise<boolean> => {
         });
 
         compiler.on('exit', (exitcode) => {
-            if (exitcode === 1 || error !== '') {
-                ocWrite('Errors while compiling:\n' + error);
+            if (error !== '' && exitcode !== 1) {
+                ocWrite('编译时发生错误:\n' + error);
                 ocShow();
-                console.error('Compilation failed');
+                console.warn('编译通过, 但有警告');
+            } else if (exitcode === 1) {
+                ocWrite('编译时发生错误:\n' + error);
+                ocShow();
+                console.error('编译失败');
                 resolve(false);
                 getJudgeViewProvider().extensionToJudgeViewMessage({
                     command: 'compiling-stop',
@@ -167,8 +171,10 @@ export const compileFile = async (srcPath: string): Promise<boolean> => {
                     command: 'not-running',
                 });
                 return;
+            } else {
+                console.log('编译通过');
             }
-            console.log('Compilation passed');
+
             getJudgeViewProvider().extensionToJudgeViewMessage({
                 command: 'compiling-stop',
             });

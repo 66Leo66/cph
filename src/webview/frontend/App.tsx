@@ -366,7 +366,7 @@ function Judge(props: {
                         <span className="icon">
                             <i className="codicon codicon-add"></i>
                         </span>{' '}
-                        New Testcase
+                        新建测试用例
                     </button>
                     {renderSubmitButton()}
                 </div>
@@ -375,7 +375,7 @@ function Judge(props: {
                 <span onClick={toggleOnlineJudgeEnv}>
                     <input type="checkbox" checked={onlineJudgeEnv} />
                     <span>
-                        Set <code>ONLINE_JUDGE</code>
+                        设置 <code>ONLINE_JUDGE</code>
                     </span>
                 </span>
             </div>
@@ -390,7 +390,7 @@ function Judge(props: {
                         <span className="icon">
                             <i className="codicon codicon-debug-restart"></i>
                         </span>{' '}
-                        Run All
+                        全部运行
                     </button>
                     <button
                         className="btn btn-green"
@@ -400,7 +400,7 @@ function Judge(props: {
                         <span className="icon">
                             <i className="codicon codicon-add"></i>
                         </span>{' '}
-                        New
+                        新建
                     </button>
                 </div>
                 <div className="row">
@@ -412,7 +412,7 @@ function Judge(props: {
                         <span className="icon">
                             <i className="codicon codicon-circle-slash"></i>
                         </span>{' '}
-                        Stop
+                        停止
                     </button>
                     <a
                         className="btn"
@@ -422,7 +422,7 @@ function Judge(props: {
                         <span className="icon">
                             <i className="codicon codicon-question"></i>
                         </span>{' '}
-                        Help
+                        帮助
                     </a>
                     <button
                         className="btn btn-red right"
@@ -432,7 +432,7 @@ function Judge(props: {
                         <span className="icon">
                             <i className="codicon codicon-trash"></i>
                         </span>{' '}
-                        Delete
+                        删除
                     </button>
                 </div>
             </div>
@@ -570,15 +570,14 @@ function App() {
                 <div className={`ui p10 fallback`}>
                     <div className="text-center">
                         <p>
-                            This document does not have a CPH problem associated
-                            with it.
+                            此文件没有关联的 cph 试题
                         </p>
                         <br />
                         <div className="btn btn-block" onClick={createProblem}>
                             <span className="icon">
                                 <i className="codicon codicon-add"></i>
                             </span>{' '}
-                            Create Problem
+                            创建试题
                         </div>
                         <a
                             className="btn btn-block btn-green"
@@ -587,7 +586,7 @@ function App() {
                             <span className="icon">
                                 <i className="codicon codicon-question"></i>
                             </span>{' '}
-                            How to use this extension
+                            如何使用此拓展
                         </a>
                     </div>
                 </div>
@@ -639,7 +638,7 @@ function App() {
     } else {
         return (
             <>
-                <div className="text-center">Loading...</div>
+                <div className="text-center">加载中...</div>
             </>
         );
     }

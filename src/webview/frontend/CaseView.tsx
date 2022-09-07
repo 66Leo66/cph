@@ -72,7 +72,7 @@ export default function CaseView(props: {
 
     const copyToClipboard = (text: string) => {
         navigator.clipboard.writeText(text);
-        props.notify('Copied to clipboard');
+        props.notify('已复制到剪贴板');
     };
 
     useEffect(() => {
@@ -109,14 +109,14 @@ export default function CaseView(props: {
         resultText = result.stdout.trim() || ' ';
     }
     if (!result) {
-        resultText = 'Run to show output';
+        resultText = '运行以查看输出';
     }
     if (running) {
         resultText = '...';
     }
-    const passFailText = result ? (result.pass ? 'passed' : 'failed') : '';
-    const caseClassName = 'case ' + (running ? 'running' : passFailText);
-    const timeText = result?.timeOut ? 'Timed Out' : result?.time + 'ms';
+    const passFailText = result ? (result.pass ? '通过' : '错误') : '';
+    const caseClassName = '用例 ' + (running ? '运行中' : passFailText);
+    const timeText = result?.timeOut ? '超时' : result?.time + 'ms';
 
     return (
         <div className={caseClassName}>
@@ -124,14 +124,14 @@ export default function CaseView(props: {
                 <div className="toggle-minimize" onClick={toggle}>
                     <span className="case-number case-title">
                         {minimized && (
-                            <span onClick={expand} title="Expand">
+                            <span onClick={expand} title="展开">
                                 <span className="icon">
                                     <i className="codicon codicon-chevron-down"></i>
                                 </span>
                             </span>
                         )}
                         {!minimized && (
-                            <span onClick={minimize} title="Minimize">
+                            <span onClick={minimize} title="折叠">
                                 <span className="icon">
                                     <i className="codicon codicon-chevron-up"></i>
                                 </span>
@@ -147,7 +147,7 @@ export default function CaseView(props: {
                                     result.pass ? 'result-pass' : 'result-fail'
                                 }
                             >
-                                {result.pass ? 'Passed' : 'Failed'}
+                                {result.pass ? '通过' : '错误'}
                             </span>
                             <span className="exec-time">{timeText}</span>
                         </span>
@@ -156,7 +156,7 @@ export default function CaseView(props: {
                 <div className="time">
                     <button
                         className="btn btn-green"
-                        title="Run Again"
+                        title="再次运行"
                         onClick={rerun}
                         disabled={running}
                     >
@@ -166,7 +166,7 @@ export default function CaseView(props: {
                     </button>
                     <button
                         className="btn btn-red"
-                        title="Delete Testcase"
+                        title="删除测试用例"
                         onClick={() => {
                             props.remove(id);
                         }}
@@ -186,9 +186,9 @@ export default function CaseView(props: {
                             onClick={() => {
                                 copyToClipboard(input);
                             }}
-                            title="Copy to clipboard"
+                            title="复制到剪贴板"
                         >
-                            Copy
+                            复制
                         </div>
                         <TextareaAutosize
                             className="selectable input-textarea"
@@ -199,15 +199,15 @@ export default function CaseView(props: {
                         />
                     </div>
                     <div className="textarea-container">
-                        Expected Output:
+                        预期输出:
                         <div
                             className="clipboard"
                             onClick={() => {
                                 copyToClipboard(output);
                             }}
-                            title="Copy to clipboard"
+                            title="复制到剪贴板"
                         >
-                            Copy
+                            复制
                         </div>
                         <TextareaAutosize
                             className="selectable expected-textarea"
@@ -217,15 +217,15 @@ export default function CaseView(props: {
                     </div>
                     {props.case.result != null && (
                         <div className="textarea-container">
-                            Received Output:
+                            实际输出:
                             <div
                                 className="clipboard"
                                 onClick={() => {
                                     copyToClipboard(resultText);
                                 }}
-                                title="Copy to clipboard"
+                                title="复制到剪贴板"
                             >
-                                Copy
+                                复制
                             </div>
                             <>
                                 <TextareaAutosize
@@ -238,7 +238,7 @@ export default function CaseView(props: {
                     )}
                     {stderror && stderror.length > 0 && (
                         <>
-                            Standard Error:
+                            标准错误输出:
                             <TextareaAutosize
                                 className="selectable stderror-textarea"
                                 value={trunctateStdout(stderror)}
@@ -255,7 +255,7 @@ export default function CaseView(props: {
 /** Limit string length to 100,000. */
 const trunctateStdout = (stdout: string): string => {
     if (stdout.length > 100000) {
-        stdout = '[Truncated]\n' + stdout.substr(0, 100000);
+        stdout = '[删节]\n' + stdout.substr(0, 100000);
     }
     return stdout;
 };
