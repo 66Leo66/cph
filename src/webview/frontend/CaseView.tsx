@@ -180,7 +180,7 @@ export default function CaseView(props: {
             {!minimized && (
                 <>
                     <div className="textarea-container">
-                        Input:
+                        输入数据:
                         <div
                             className="clipboard"
                             onClick={() => {
