@@ -137,7 +137,7 @@ export default function CaseView(props: {
                                 </span>
                             </span>
                         )}
-                        &nbsp;Testcase {props.num}
+                        &nbsp;测试用例 {props.num}
                     </span>
                     {running && <span className="running-text">Running</span>}
                     {result && !running && (
